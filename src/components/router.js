@@ -4,14 +4,14 @@ import { Switch, Route } from 'react-router-dom';
 
 import config from '../config';
 import {
-  Reminders
+  Calendar
 } from './routes';
 
 export class Router extends Component {
   render() {
     return (
       <Switch>
-        <Route path="/" component={Reminders}/>
+        <Route path="/" component={Calendar}/>
       </Switch>
     );
   }

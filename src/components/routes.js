@@ -1,3 +1,3 @@
 import { createLodable } from './router.utils';
 
-export const Reminders = createLodable(() => import('./reminders'));
+export const Calendar = createLodable(() => import('./calendar'));
