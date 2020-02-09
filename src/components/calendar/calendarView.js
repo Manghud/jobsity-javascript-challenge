@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { getRemindersForMonth } from './calendar.helpers';
 import { setCalendarDate } from '../../actions/calendar';
-import DateTimeSelect from './dateTimeSelect';
-import CreateReminder from './createReminder';
-import CalendarView from './calendarView';
 
-class Calendar extends Component {
+class CalendarUI extends Component {
   componentDidMount() {
     const { activeDate = {} } = this.props;
     if (!activeDate.year) {
@@ -14,14 +12,9 @@ class Calendar extends Component {
     }
   }
   render() {
-    const {
-      activeDate
-    } = this.props;
     return (
       <div>
-        <DateTimeSelect activeDate={activeDate}/>
-        <CreateReminder/>
-        <CalendarView/>
+        Calendar UI
       </div>
     );
   }
@@ -29,8 +22,13 @@ class Calendar extends Component {
 
 const mapStateToProps = (state, props) => {
   const calendarState = state.calendar || {};
+  const remindersState = state.reminders || {};
   return {
-    activeDate: calendarState
+    activeDate: calendarState,
+    reminders: getRemindersForMonth({
+      reminders: remindersState,
+      query: calendarState
+    })
   };
 };
 
@@ -39,4 +37,4 @@ export default connect(
   {
     setCalendarDate
   }
-)(Calendar);
+)(CalendarUI);
