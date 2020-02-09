@@ -1,0 +1,16 @@
+.addReminderForm{
+    display: flex;
+    flex-direction: column;
+    :global(label) {
+        font-weight: bold;
+        margin-top: 1em;
+        margin-bottom: 0.5em;
+    }
+    :global(.ui.button) {
+        margin-top: 1em;
+    }
+    .formError {
+        color: red;
+        font-size: 0.75em;
+    }
+}

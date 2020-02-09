@@ -1,0 +1,21 @@
+.newReminderToggle{
+    &:hover{
+        cursor: pointer;
+    }
+}
+
+.calendarContainer{
+    margin-top: 4em;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .section {
+        margin-top: .5em;
+        margin-bottom: .5em;
+    }
+    .section:last-of-type {
+        margin-top: 3em;
+    }
+}
