@@ -18,12 +18,12 @@ const removeFromIndex = (index = [], reminder) => index.filter(r => r.frontendId
 export default generateReducer(initialState, {
   [ADD_REMINDER](state, action) {
     const reminder = action.payload;
-    const yearlyIndex = state.yearly[reminder.yearId] || [];
-    const monthlyIndex = state.monthly[reminder.monthId] || [];
-    const dailyIndex = state.daily[reminder.dayId] || [];
-    const hourlyIndex = state.hourly[reminder.hourId] || [];
-    const id = reminder.data.frontendId;
     const { yearId, monthId, dayId, hourId } = reminder.indices;
+    const yearlyIndex = state.yearly[yearId] || [];
+    const monthlyIndex = state.monthly[monthId] || [];
+    const dailyIndex = state.daily[dayId] || [];
+    const hourlyIndex = state.hourly[hourId] || [];
+    const id = reminder.data.frontendId;
     return {
       ...state,
       data: {
@@ -35,7 +35,7 @@ export default generateReducer(initialState, {
         [yearId]: [...yearlyIndex, id]
       },
       monthly: {
-        ...state.yearly,
+        ...state.monthly,
         [monthId]: [...monthlyIndex, id]
       },
       daily: {
@@ -43,20 +43,20 @@ export default generateReducer(initialState, {
         [dayId]: [...dailyIndex, id]
       },
       hourly: {
-        ...state.yearly,
+        ...state.hourly,
         [hourId]: [...hourlyIndex, id]
       }
     };
   },
   [REMOVE_REMINDER](state, action) {
     const reminder = action.payload;
-    const yearlyIndex = state.yearly[reminder.yearId] || [];
-    const monthlyIndex = state.monthly[reminder.monthId] || [];
-    const dailyIndex = state.daily[reminder.dayId] || [];
-    const hourlyIndex = state.hourly[reminder.hourId] || [];
+    const { yearId, monthId, dayId, hourId } = reminder.indices;
+    const yearlyIndex = state.yearly[yearId] || [];
+    const monthlyIndex = state.monthly[monthId] || [];
+    const dailyIndex = state.daily[dayId] || [];
+    const hourlyIndex = state.hourly[hourId] || [];
     const id = reminder.data.frontendId;
     const { [id]:idToRemove, ...newData } = state.data;
-    const { yearId, monthId, dayId, hourId } = reminder.indices;
     return {
       ...state,
       data: newData,
@@ -65,7 +65,7 @@ export default generateReducer(initialState, {
         [yearId]: removeFromIndex(yearlyIndex, id)
       },
       monthly: {
-        ...state.yearly,
+        ...state.monthly,
         [monthId]: removeFromIndex(monthlyIndex, id)
       },
       daily: {
@@ -73,7 +73,7 @@ export default generateReducer(initialState, {
         [dayId]: removeFromIndex(dailyIndex, id)
       },
       hourly: {
-        ...state.yearly,
+        ...state.hourly,
         [hourId]: removeFromIndex(hourlyIndex, id)
       }
     };

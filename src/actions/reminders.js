@@ -7,7 +7,7 @@ import {
 } from './types/reminders';
 
 
-const getIndicesForReminder = reminder => {
+export const getIndicesForReminder = reminder => {
   const yearId = getYear(reminder.date);
   const monthId = `${yearId}-${getMonth(reminder.date)}`;
   const dayId = `${monthId}-${getDate(reminder.date)}`;

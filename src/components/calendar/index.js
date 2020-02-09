@@ -52,6 +52,9 @@ class Calendar extends Component {
   }
 
   render() {
+    const {
+      activeDate
+    } = this.props;
     return (
       <div styleName="calendarContainer">
         <div styleName="section">
