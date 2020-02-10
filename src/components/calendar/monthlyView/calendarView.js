@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import getDaysInMonth from 'date-fns/getDaysInMonth';
+import getDay from 'date-fns/getDay';
+import { Grid } from 'semantic-ui-react';
 
-import { getRemindersForMonth } from '../calendar.helpers';
+import {
+  getRemindersForMonth,
+  getDateFromCalendar
+} from '../calendar.helpers';
 import { setCalendarDate } from '../../../actions/calendar';
 import { editReminder, removeReminder } from '../../../actions/reminders';
 import RemindersForDate from './remindersForDate';
 import EditReminder from '../createReminder';
+
+import './calendarView.module.scss';
+
 
 class CalendarUI extends Component {
   constructor(props) {
@@ -66,26 +74,56 @@ class CalendarUI extends Component {
     );
   }
 
+  renderRemindersForDate(date, previousMonth) {
+    const { reminders } = this.props;
+    return (
+      <RemindersForDate
+        key={previousMonth ? date + '_previous' : date}
+        date={date}
+        reminders={previousMonth ? [] : reminders[date]}
+        onShowEditReminderModal={this.onShowEditReminderModal}
+        onRemoveReminder={this.onRemoveReminder}
+        previousMonth={previousMonth}
+      />
+    );
+  }
+
+  renderCalendarHeaders() {
+    return [];
+  }
+
   renderReminders() {
-    const { reminders = {}, daysInMonth } = this.props;
+    const { daysInMonth, daysInPreviousMonth, firstDayInMonth } = this.props;
     if (!daysInMonth) {
       return [];
     }
-    return Array.apply(this, Array(daysInMonth)).map((_, i) => {
-      const date = i + 1;
-      return <RemindersForDate
-        key={date}
-        date={date}
-        reminders={reminders[date]}
-        onShowEditReminderModal={this.onShowEditReminderModal}
-        onRemoveReminder={this.onRemoveReminder}
-      />;
-    });
+    const rowsToRender = [];
+    const daysFromPreviousMonth = firstDayInMonth > 0 ? firstDayInMonth : 0;
+    for (let w = 0; w < 5; w++) {
+      const rowItems = [];
+      for(let d = 0; d < 7; d++) {
+        if (w === 0 && d < firstDayInMonth) {
+          const date = daysInPreviousMonth - firstDayInMonth + d + 1;
+          rowItems.push(this.renderRemindersForDate(date, true));
+          continue;
+        }
+        const date = w * 7 + d + 1 - daysFromPreviousMonth;
+        if (date > daysInMonth) {
+          rowItems.push(this.renderRemindersForDate(date - daysInMonth, true));
+          continue;
+        }
+        rowItems.push(this.renderRemindersForDate(date));
+      }
+      rowsToRender.push(<Grid.Row key={w} columns={7}>{rowItems}</Grid.Row>);
+    }
+    return <Grid columns={7}>{rowsToRender}</Grid>;
   }
 
   render() {
     return <React.Fragment>
-      {this.renderReminders()}
+      <div styleName="calendarView">
+        {this.renderReminders()}
+      </div>
       {this.renderEditReminder()}
     </React.Fragment>;
   }
@@ -94,13 +132,25 @@ class CalendarUI extends Component {
 const mapStateToProps = (state, props) => {
   const calendarState = state.calendar || {};
   const remindersState = state.reminders || {};
+  const calendarDate = getDateFromCalendar(calendarState);
+  const calendarDateForFirstDayInMonth = getDateFromCalendar({
+    ...calendarState,
+    day: 1
+  });
+  const previousMonthDate = getDateFromCalendar({
+    ...calendarState,
+    day: 1,
+    month: calendarState.month > 0 ? calendarState.month -1 : 11
+  });
   return {
     activeDate: calendarState,
     reminders: getRemindersForMonth({
       reminders: remindersState,
       query: calendarState
     }),
-    daysInMonth: getDaysInMonth(calendarState.month)
+    daysInMonth: getDaysInMonth(calendarDate),
+    daysInPreviousMonth: getDaysInMonth(previousMonthDate),
+    firstDayInMonth: getDay(calendarDateForFirstDayInMonth)
   };
 };
 

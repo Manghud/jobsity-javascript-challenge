@@ -1,0 +1,14 @@
+.calendarView{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    :global(.ui.grid) {
+        justify-content: center;
+    }
+    :global(.ui.grid .row) {
+        padding: 0;
+    }
+    :global(.ui.grid .column) {
+        padding: 0;
+    }
+}

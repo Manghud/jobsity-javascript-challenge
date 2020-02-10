@@ -50,9 +50,10 @@ class RemindersForDate extends Component {
   }
 
   render() {
-    const { date } = this.props;
+    const { date, previousMonth } = this.props;
+    const styleName = previousMonth ? 'previousMonth remindersForDate' : 'remindersForDate';
     return (
-      <div styleName="remindersForDate">
+      <div styleName={styleName}>
         <span styleName="dateLabel">{date}</span>
         {this.renderRemoveReminders()}
         <div styleName="remindersContainer">

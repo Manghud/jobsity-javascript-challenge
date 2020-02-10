@@ -1,6 +1,9 @@
+$calendarCellWidth: 10vw;
+$calendarCellHeight: calc(#{$calendarCellWidth} / 1.5);
+
 .remindersForDate {
-    width: 144px;
-    height: 96px;
+    width: $calendarCellWidth;
+    min-height: $calendarCellHeight;
     border: solid 1px #d2d2d2;
     font-size: 0.8em;
     .dateLabel{
@@ -8,11 +11,17 @@
         left: 4px;
         top: 3px;
     }
+    &.previousMonth{
+        background-color: #f2f2f2;
+        .dateLabel{
+            font-weight: lighter;
+        }
+    }
     .removeReminders {
         color: red;
         position: relative;
         top: 2px;
-        left: 115px;
+        left: calc(#{$calendarCellWidth} - 27px);
         &:hover{
             cursor: pointer;
         }
@@ -22,6 +31,7 @@
         position: relative;
         left: 1px;
         top: calc(3px + 0.35em);
+        padding-bottom: .55em;
         width: 100%;
     }
 }

@@ -21,6 +21,9 @@ class CalendarDateTimeSelect extends Component {
   }
 
   onDateChange(date) {
+    if (!date) {
+      return null;
+    }
     this.props.setCalendarDate({
       date,
       time: null

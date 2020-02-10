@@ -1,16 +1,24 @@
-import setDate from 'date-fns/set';
+import set from 'date-fns/set';
 import getDate from 'date-fns/getDate';
 
 import {
   getIndicesForReminder
 } from '../../actions/reminders';
 
+export const getDateFromCalendar = calendar => {
+  return set(new Date(), {
+    year: calendar.year,
+    month: calendar.month,
+    date: calendar.day
+  });
+};
+
 export const getRemindersForMonth = ({ reminders, query }) => {
   const { year, month } = query;
   if (!year || !month) {
     return {};
   }
-  const dateQuery = setDate(new Date(), { year, month });
+  const dateQuery = set(new Date(), { year, month });
   const { monthId } = getIndicesForReminder({
     date: dateQuery,
     time: null
