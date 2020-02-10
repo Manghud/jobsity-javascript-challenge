@@ -68,7 +68,6 @@ class CalendarUI extends Component {
 
   renderReminders() {
     const { reminders = {}, daysInMonth } = this.props;
-    console.log(reminders);
     if (!daysInMonth) {
       return [];
     }
