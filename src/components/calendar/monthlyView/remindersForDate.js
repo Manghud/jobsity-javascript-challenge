@@ -20,6 +20,18 @@ class RemindersForDate extends Component {
     });
   }
 
+  renderRemoveReminders() {
+    const { reminders = [] } = this.props;
+    if (!reminders.length) {
+      return null;
+    }
+    return (
+      <span styleName="removeReminders" onClick={this.onClearReminders}>
+        <Icon name="trash"/>
+      </span>
+    );
+  }
+
   renderReminders() {
     const reminders = this.props.reminders ? [...this.props.reminders] : [];
     reminders.sort((a, b) => {
@@ -42,9 +54,7 @@ class RemindersForDate extends Component {
     return (
       <div styleName="remindersForDate">
         <span styleName="dateLabel">{date}</span>
-        <span styleName="removeReminders" onClick={this.onClearReminders}>
-          <Icon name="trash"/>
-        </span>
+        {this.renderRemoveReminders()}
         <div styleName="remindersContainer">
           {this.renderReminders()}
         </div>

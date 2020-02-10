@@ -17,13 +17,11 @@ class MonthlyViewReminder extends Component {
   render() {
     const { reminder = {} }= this.props;
     return (
-      <div styleName="reminder">
-        <div onClick={this.onShowEditReminderModal}>
-          <b>{reminder.time}:&nbsp;</b>
-          <span styleName="reminderDescription" style={{ color: reminder.color }}>
-            {reminder.description}
-          </span>
-        </div>
+      <div styleName="reminder" onClick={this.onShowEditReminderModal}>
+        <b>{reminder.time}:&nbsp;</b>
+        <span styleName="reminderDescription" style={{ color: reminder.color }}>
+          {reminder.description}
+        </span>
       </div>
     );
   }
