@@ -1,10 +1,11 @@
 $calendarCellWidth: 10vw;
 $calendarCellHeight: calc(#{$calendarCellWidth} / 1.5);
+$calendarCellBorderColor: #d2d2d2;
 
 .remindersForDate {
     width: $calendarCellWidth;
     min-height: $calendarCellHeight;
-    border: solid 1px #d2d2d2;
+    border: solid 1px $calendarCellBorderColor;
     font-size: 0.8em;
     .dateLabel{
         position: relative;

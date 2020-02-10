@@ -89,7 +89,12 @@ class CalendarUI extends Component {
   }
 
   renderCalendarHeaders() {
-    return [];
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thurdsay', 'Friday', 'Saturday'];
+    return (
+      <Grid.Row>
+        {daysOfWeek.map(day => <div styleName="calendarHeader">{day}</div>)}
+      </Grid.Row>
+    );
   }
 
   renderReminders() {
@@ -97,7 +102,7 @@ class CalendarUI extends Component {
     if (!daysInMonth) {
       return [];
     }
-    const rowsToRender = [];
+    const rowsToRender = [this.renderCalendarHeaders()];
     const daysFromPreviousMonth = firstDayInMonth > 0 ? firstDayInMonth : 0;
     for (let w = 0; w < 5; w++) {
       const rowItems = [];

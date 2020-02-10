@@ -1,3 +1,5 @@
+@import "remindersForDate.module.scss";
+
 .calendarView{
     display: flex;
     align-items: center;
@@ -10,5 +12,23 @@
     }
     :global(.ui.grid .column) {
         padding: 0;
+    }
+    .calendarHeader{
+        width: $calendarCellWidth;
+        text-align: center;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        background-color: teal;
+        font-weight: bold;
+        color: white;
+        font-size: .9em;
+        border-left: solid 1px $calendarCellBorderColor;
+        border-right: solid 1px $calendarCellBorderColor;
+        &:first-child {
+            border-left: 0px;
+        }
+        &:last-child {
+            border-right: 0px;
+        }
     }
 }
