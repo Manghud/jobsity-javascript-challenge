@@ -12,21 +12,37 @@ const INITIAL_STATE = {
   description: '',
   date: new Date(),
   time: '12:00',
-  color: '#fff',
-  city: '',
-  showErrors: false
+  color: '#000000',
+  city: ''
 };
 
 class CreateReminder extends Component {
   constructor(props) {
     super(props);
-    this.state = INITIAL_STATE;
+    this.state = { ...INITIAL_STATE, showErrors: false };
     this.onConfirm = this.onConfirm.bind(this);
     this.onDescriptionChange = this.onDescriptionChange.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
     this.onTimeChange = this.onTimeChange.bind(this);
     this.onCityChange = this.onCityChange.bind(this);
     this.onColorChange = this.onColorChange.bind(this);
+  }
+
+  componentDidMount() {
+    const { editMode } = this.props;
+    if (!editMode) {
+      return;
+    }
+    const hasNewProps = Object.keys(INITIAL_STATE).some(key => editMode[key] !== this.state[key]);
+    if (hasNewProps) {
+      this.setState({
+        description: editMode.description,
+        date: editMode.date,
+        time: editMode.time,
+        city: editMode.city,
+        color: editMode.color
+      });
+    }
   }
 
   onConfirm() {
@@ -51,7 +67,6 @@ class CreateReminder extends Component {
       color,
       city
     });
-    this.setState(INITIAL_STATE);
   }
 
   onDescriptionChange(_, data) {
@@ -87,6 +102,21 @@ class CreateReminder extends Component {
     </label>;
   }
 
+  renderModalHeader() {
+    const header = this.props.editMode ? 'Edit Reminder' : 'New Reminder';
+    return <Modal.Header>{header}</Modal.Header>;
+  }
+
+  renderAdditionalActions() {
+    const {
+      editMode,
+      onRemove
+    } = this.props;
+    if (editMode && onRemove) {
+      return <Button negative onClick={onRemove.bind(this, editMode)}>Remove</Button>;
+    }
+    return null;
+  }
   render() {
     const {
       open,
@@ -107,7 +137,7 @@ class CreateReminder extends Component {
         closeOnDimmerClick
         closeIcon
       >
-        <Modal.Header>Add new Reminder</Modal.Header>
+        {this.renderModalHeader()}
         <Modal.Content>
           <div styleName="addReminderForm">
             {this.renderInputLabel('Decription', 'description')}
@@ -140,7 +170,10 @@ class CreateReminder extends Component {
               color={color}
               onChangeComplete={this.onColorChange}
             />
-            <Button primary onClick={this.onConfirm}>Confirm</Button>
+            <div styleName="formActions">
+              <Button primary onClick={this.onConfirm}>Confirm</Button>
+              {this.renderAdditionalActions()}
+            </div>
           </div>
         </Modal.Content>
       </Modal>
@@ -150,8 +183,10 @@ class CreateReminder extends Component {
 
 CreateReminder.propTypes = {
   open: PropTypes.bool,
+  editMode: PropTypes.object,
   onConfirm: PropTypes.func,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  onRemove: PropTypes.func
 };
 
 export default CreateReminder;

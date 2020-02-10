@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { addReminder } from '../../actions/reminders';
 import CalendarDateSelect from './calendarDateSelect';
 import CreateReminder from './createReminder';
-import CalendarView from './calendarView';
+import CalendarMonthlyView from './monthlyView/calendarView';
 
 import './calendar.module.scss';
 
@@ -39,6 +39,9 @@ class Calendar extends Component {
   }
 
   renderAddReminder() {
+    if (!this.state.showCreateModal) {
+      return null;
+    }
     return (
       <React.Fragment>
         <CreateReminder
@@ -46,7 +49,6 @@ class Calendar extends Component {
           onConfirm={this.onAddReminder}
           onClose={this.onHideCreateReminderModal}
         />
-        <a sytleName="newReminderToggle" onClick={this.onShowCreateReminderModal}>New Reminder</a>
       </React.Fragment>
     );
   }
@@ -56,12 +58,19 @@ class Calendar extends Component {
       <div styleName="calendarContainer">
         <div styleName="section">
           {this.renderAddReminder()}
+          <a
+            styleName="newReminderToggle"
+            onClick={this.onShowCreateReminderModal}
+            onClose={this.onHideCreateReminderModal}
+          >
+            New Reminder
+          </a>
         </div>
         <div styleName="section">
           <CalendarDateSelect/>
         </div>
         <div styleName="section">
-          <CalendarView/>
+          <CalendarMonthlyView/>
         </div>
       </div>
     );

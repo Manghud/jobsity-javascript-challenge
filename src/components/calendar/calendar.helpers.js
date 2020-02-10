@@ -1,4 +1,5 @@
 import setDate from 'date-fns/set';
+import getDate from 'date-fns/getDate';
 
 import {
   getIndicesForReminder
@@ -18,5 +19,14 @@ export const getRemindersForMonth = ({ reminders, query }) => {
   if (!reminderIds) {
     return {};
   }
-  return reminderIds.map(reminderId => reminders.data[reminderId]);
+  const remindersByDayOfMonth = {};
+  reminderIds.forEach(reminderId => {
+    const reminder = reminders.data[reminderId];
+    const date = getDate(reminder.date);
+    if (!remindersByDayOfMonth[date]) {
+      remindersByDayOfMonth[date] = [];
+    }
+    remindersByDayOfMonth[date].push(reminder);
+  });
+  return remindersByDayOfMonth;
 };

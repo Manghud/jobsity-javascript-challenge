@@ -13,4 +13,11 @@
         color: red;
         font-size: 0.75em;
     }
+    .formActions{
+        display: flex;
+        flex-direction: row;
+        :global(.ui.button) {
+            flex: 1 1;
+        }
+    }
 }

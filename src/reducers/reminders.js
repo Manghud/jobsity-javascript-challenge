@@ -13,7 +13,7 @@ const initialState = {
   hourly: {}
 };
 
-const removeFromIndex = (index = [], reminder) => index.filter(r => r.frontendId !== reminder.frontendId);
+const removeFromIndex = (index = [], id) => index.filter(reminderId => reminderId !== id);
 
 export default generateReducer(initialState, {
   [ADD_REMINDER](state, action) {

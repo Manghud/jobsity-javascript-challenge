@@ -5,7 +5,7 @@ import setDate from 'date-fns/set';
 
 import { setCalendarDate } from '../../actions/calendar';
 
-import './dateTimeSelect.module.scss';
+import './calendarDateSelect.module.scss';
 
 class CalendarDateTimeSelect extends Component {
   constructor(props) {

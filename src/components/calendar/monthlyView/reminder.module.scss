@@ -1,0 +1,17 @@
+.reminder {
+    &:hover{
+        cursor: pointer;
+    }
+    padding-left: 3px;
+    padding-right: 3px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.reminderDescription {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

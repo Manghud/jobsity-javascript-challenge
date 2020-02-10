@@ -1,0 +1,27 @@
+.remindersForDate {
+    width: 144px;
+    height: 96px;
+    border: solid 1px #d2d2d2;
+    font-size: 0.8em;
+    .dateLabel{
+        position: relative;
+        left: 4px;
+        top: 3px;
+    }
+    .removeReminders {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 115px;
+        &:hover{
+            cursor: pointer;
+        }
+    }
+    .remindersContainer{
+        font-size: 0.95em;
+        position: relative;
+        left: 1px;
+        top: calc(3px + 0.35em);
+        width: 100%;
+    }
+}
