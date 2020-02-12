@@ -56,20 +56,22 @@ class Calendar extends Component {
   render() {
     return (
       <div styleName="calendarContainer">
-        <div styleName="section">
-          {this.renderAddReminder()}
-          <a
-            styleName="newReminderToggle"
-            onClick={this.onShowReminderFormModal}
-            onClose={this.onHideReminderFormModal}
-          >
-            New Reminder
-          </a>
+        <div styleName="controlSection">
+          <div styleName="calendarSelectSection">
+            <CalendarDateSelect/>
+          </div>
+          <div styleName="newReminderSection">
+            {this.renderAddReminder()}
+            <a
+              styleName="newReminderToggle"
+              onClick={this.onShowReminderFormModal}
+              onClose={this.onHideReminderFormModal}
+            >
+              New Reminder
+            </a>
+          </div>
         </div>
-        <div styleName="section">
-          <CalendarDateSelect/>
-        </div>
-        <div styleName="section">
+        <div styleName="mainSection">
           <CalendarMonthlyView/>
         </div>
       </div>
