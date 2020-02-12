@@ -14,8 +14,8 @@ export const getDateFromCalendar = calendar => {
   });
 };
 
-export const groupReminderTimesByCity = remindersByDate => {
-  const reminderTimesByCity = {};
+export const groupReminderDatesByCity = remindersByDate => {
+  const reminderDatesByCity = {};
   Object.keys(remindersByDate)
     .filter(reminderDate => +reminderDate <= getDate(new Date()) + AVAILABLE_FORECAST_DAYS)
     .forEach(reminderDate => {
@@ -25,15 +25,15 @@ export const groupReminderTimesByCity = remindersByDate => {
           return;
         }
         const city = reminder.city.toLowerCase();
-        if (!reminderTimesByCity[city]) {
-          reminderTimesByCity[city] = [];
+        if (!reminderDatesByCity[city]) {
+          reminderDatesByCity[city] = [];
         }
-        if (!reminderTimesByCity[city].includes(reminder.time)) {
-          reminderTimesByCity[city].push(reminder.time);
+        if (!reminderDatesByCity[city].includes(+reminderDate)) {
+          reminderDatesByCity[city].push(+reminderDate);
         }
       });
     });
-  return reminderTimesByCity;
+  return reminderDatesByCity;
 };
 
 export const getRemindersForMonth = ({ reminders, query }) => {

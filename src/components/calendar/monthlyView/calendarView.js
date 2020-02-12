@@ -7,9 +7,9 @@ import { Grid } from 'semantic-ui-react';
 import {
   getRemindersForMonth,
   getDateFromCalendar,
-  groupReminderTimesByCity
+  groupReminderDatesByCity
 } from './calendarView.helpers';
-import { getWeatherForCityTimes } from '../../../actions/weather';
+import { getWeatherForCityDates } from '../../../actions/weather';
 import { setCalendarDate } from '../../../actions/calendar';
 import { editReminder, removeReminder } from '../../../actions/reminders';
 import RemindersForDate from './remindersForDate';
@@ -32,18 +32,18 @@ class CalendarUI extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { reminderTimesByCity = {} } = this.props;
-    Object.keys(reminderTimesByCity).forEach(city => {
-      const timesForCity = reminderTimesByCity[city];
-      const prevTimesForCity = prevProps.reminderTimesByCity[city];
+    const { reminderDatesByCity = {} } = this.props;
+    Object.keys(reminderDatesByCity).forEach(city => {
+      const datesForCity = reminderDatesByCity[city];
+      const prevDatesForCity = prevProps.reminderDatesByCity[city];
       if (
-        !prevTimesForCity ||
-        prevTimesForCity.length !== timesForCity.length ||
-        timesForCity.some(time => !prevTimesForCity.includes(time))
+        !prevDatesForCity ||
+        prevDatesForCity.length !== datesForCity.length ||
+        datesForCity.some(time => !prevDatesForCity.includes(time))
       ) {
-        this.props.getWeatherForCityTimes({
+        this.props.getWeatherForCityDates({
           city,
-          times: reminderTimesByCity[city]
+          dates: reminderDatesByCity[city]
         });
       }
     });
@@ -175,7 +175,7 @@ const mapStateToProps = (state, props) => {
   });
   return {
     reminders,
-    reminderTimesByCity: groupReminderTimesByCity(reminders),
+    reminderDatesByCity: groupReminderDatesByCity(reminders),
     activeDate: calendarState,
     daysInMonth: getDaysInMonth(calendarDate),
     daysInPreviousMonth: getDaysInMonth(previousMonthDate),
@@ -189,6 +189,6 @@ export default connect(
     setCalendarDate,
     editReminder,
     removeReminder,
-    getWeatherForCityTimes
+    getWeatherForCityDates
   }
 )(CalendarUI);

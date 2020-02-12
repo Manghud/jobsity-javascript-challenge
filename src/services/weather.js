@@ -1,4 +1,4 @@
-const serviceURL = 'https://api.openweathermap.org/data/2.5/weather';
+const serviceURL = 'https://api.openweathermap.org/data/2.5/forecast';
 const apiKey = process.env.REACT_APP_OPEN_WEATHER_API_KEY;
 const queryWithKey = `${serviceURL}?appid=${apiKey}&`;
 
