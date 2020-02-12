@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { addReminder } from '../../actions/reminders';
 import CalendarDateSelect from './calendarDateSelect';
-import CreateReminder from './createReminder';
+import ReminderForm from './reminderForm';
 import CalendarMonthlyView from './monthlyView/calendarView';
 
 import './calendar.module.scss';
@@ -15,8 +15,8 @@ class Calendar extends Component {
       showCreateModal: false
     };
     this.onAddReminder = this.onAddReminder.bind(this);
-    this.onShowCreateReminderModal = this.onShowCreateReminderModal.bind(this);
-    this.onHideCreateReminderModal = this.onHideCreateReminderModal.bind(this);
+    this.onShowReminderFormModal = this.onShowReminderFormModal.bind(this);
+    this.onHideReminderFormModal = this.onHideReminderFormModal.bind(this);
   }
 
   onAddReminder(reminder) {
@@ -26,13 +26,13 @@ class Calendar extends Component {
     });
   }
 
-  onShowCreateReminderModal() {
+  onShowReminderFormModal() {
     this.setState({
       showCreateModal: true
     });
   }
 
-  onHideCreateReminderModal() {
+  onHideReminderFormModal() {
     this.setState({
       showCreateModal: false
     });
@@ -44,10 +44,10 @@ class Calendar extends Component {
     }
     return (
       <React.Fragment>
-        <CreateReminder
+        <ReminderForm
           open={this.state.showCreateModal}
           onConfirm={this.onAddReminder}
-          onClose={this.onHideCreateReminderModal}
+          onClose={this.onHideReminderFormModal}
         />
       </React.Fragment>
     );
@@ -60,8 +60,8 @@ class Calendar extends Component {
           {this.renderAddReminder()}
           <a
             styleName="newReminderToggle"
-            onClick={this.onShowCreateReminderModal}
-            onClose={this.onHideCreateReminderModal}
+            onClick={this.onShowReminderFormModal}
+            onClose={this.onHideReminderFormModal}
           >
             New Reminder
           </a>

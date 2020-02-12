@@ -1,6 +1,8 @@
 .addReminderForm{
     display: flex;
     flex-direction: column;
+    padding-left: 2em;;
+    padding-right: 2em;;
     :global(label) {
         font-weight: bold;
         margin-top: 1em;
@@ -14,10 +16,17 @@
         font-size: 0.75em;
     }
     .formActions{
+        margin-top: 30px;
         display: flex;
         flex-direction: row;
         :global(.ui.button) {
             flex: 1 1;
+            &:nth-last-child(2){
+                margin-right: 2em;
+            }
+            &:nth-child(2){
+                margin-left: 2em;
+            }
         }
     }
 }

@@ -70,5 +70,4 @@ RemindersForDate.propTypes = {
   onShowEditReminderModal: PropTypes.func
 };
 
-
 export default RemindersForDate;

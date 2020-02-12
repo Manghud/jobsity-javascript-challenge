@@ -6,7 +6,7 @@ import TimePicker from 'react-time-picker';
 import { SketchPicker } from 'react-color';
 import uuid from 'uuid/v4';
 
-import './createReminder.module.scss';
+import './reminderForm.module.scss';
 
 const INITIAL_STATE = {
   description: '',
@@ -16,7 +16,7 @@ const INITIAL_STATE = {
   city: ''
 };
 
-class CreateReminder extends Component {
+class ReminderForm extends Component {
   constructor(props) {
     super(props);
     this.state = { ...INITIAL_STATE, showErrors: false };
@@ -102,25 +102,21 @@ class CreateReminder extends Component {
     </label>;
   }
 
-  renderModalHeader() {
-    const header = this.props.editMode ? 'Edit Reminder' : 'New Reminder';
-    return <Modal.Header>{header}</Modal.Header>;
-  }
-
   renderAdditionalActions() {
     const {
       editMode,
-      onRemove
+      onCancel
     } = this.props;
-    if (editMode && onRemove) {
-      return <Button negative onClick={onRemove.bind(this, editMode)}>Remove</Button>;
+    if (editMode && onCancel) {
+      return <Button negative onClick={onCancel.bind(this, editMode)}>Remove</Button>;
     }
     return null;
   }
   render() {
     const {
       open,
-      onClose
+      onClose,
+      editMode
     } = this.props;
     const {
       date,
@@ -137,7 +133,7 @@ class CreateReminder extends Component {
         closeOnDimmerClick
         closeIcon
       >
-        {this.renderModalHeader()}
+        <Modal.Header>{editMode ? 'Edit Reminder' : 'New Reminder'}</Modal.Header>
         <Modal.Content>
           <div styleName="addReminderForm">
             {this.renderInputLabel('Decription', 'description')}
@@ -181,12 +177,12 @@ class CreateReminder extends Component {
   }
 }
 
-CreateReminder.propTypes = {
+ReminderForm.propTypes = {
   open: PropTypes.bool,
   editMode: PropTypes.object,
   onConfirm: PropTypes.func,
   onClose: PropTypes.func,
-  onRemove: PropTypes.func
+  onCancel: PropTypes.func
 };
 
-export default CreateReminder;
+export default ReminderForm;

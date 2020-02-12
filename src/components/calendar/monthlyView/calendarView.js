@@ -6,12 +6,14 @@ import { Grid } from 'semantic-ui-react';
 
 import {
   getRemindersForMonth,
-  getDateFromCalendar
-} from '../calendar.helpers';
+  getDateFromCalendar,
+  groupReminderTimesByCity
+} from './calendarView.helpers';
+import { getWeatherForCityTimes } from '../../../actions/weather';
 import { setCalendarDate } from '../../../actions/calendar';
 import { editReminder, removeReminder } from '../../../actions/reminders';
 import RemindersForDate from './remindersForDate';
-import EditReminder from '../createReminder';
+import EditReminder from '../reminderForm';
 
 import './calendarView.module.scss';
 
@@ -27,6 +29,24 @@ class CalendarUI extends Component {
     this.onRemoveReminder = this.onRemoveReminder.bind(this);
     this.onShowEditReminderModal = this.onShowEditReminderModal.bind(this);
     this.onHideEditReminderModal = this.onHideEditReminderModal.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { reminderTimesByCity = {} } = this.props;
+    Object.keys(reminderTimesByCity).forEach(city => {
+      const timesForCity = reminderTimesByCity[city];
+      const prevTimesForCity = prevProps.reminderTimesByCity[city];
+      if (
+        !prevTimesForCity ||
+        prevTimesForCity.length !== timesForCity.length ||
+        timesForCity.some(time => !prevTimesForCity.includes(time))
+      ) {
+        this.props.getWeatherForCityTimes({
+          city,
+          times: reminderTimesByCity[city]
+        });
+      }
+    });
   }
 
   onEditReminder(reminder) {
@@ -68,7 +88,7 @@ class CalendarUI extends Component {
         editMode={{ ...editReminder }}
         open={showEditReminderModal}
         onConfirm={this.onEditReminder}
-        onRemove={this.onRemoveReminder}
+        onCancel={this.onRemoveReminder}
         onClose={this.onHideEditReminderModal}
       />
     );
@@ -91,8 +111,10 @@ class CalendarUI extends Component {
   renderCalendarHeaders() {
     const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thurdsay', 'Friday', 'Saturday'];
     return (
-      <Grid.Row>
-        {daysOfWeek.map(day => <div styleName="calendarHeader">{day}</div>)}
+      <Grid.Row key='headers'>
+        {daysOfWeek.map((day, i) =>
+          <div styleName="calendarHeader" key={`header_${i}`}>{day}</div>
+        )}
       </Grid.Row>
     );
   }
@@ -147,12 +169,14 @@ const mapStateToProps = (state, props) => {
     day: 1,
     month: calendarState.month > 0 ? calendarState.month -1 : 11
   });
+  const reminders = getRemindersForMonth({
+    reminders: remindersState,
+    query: calendarState
+  });
   return {
+    reminders,
+    reminderTimesByCity: groupReminderTimesByCity(reminders),
     activeDate: calendarState,
-    reminders: getRemindersForMonth({
-      reminders: remindersState,
-      query: calendarState
-    }),
     daysInMonth: getDaysInMonth(calendarDate),
     daysInPreviousMonth: getDaysInMonth(previousMonthDate),
     firstDayInMonth: getDay(calendarDateForFirstDayInMonth)
@@ -164,6 +188,7 @@ export default connect(
   {
     setCalendarDate,
     editReminder,
-    removeReminder
+    removeReminder,
+    getWeatherForCityTimes
   }
 )(CalendarUI);

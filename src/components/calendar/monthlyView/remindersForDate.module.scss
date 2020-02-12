@@ -21,8 +21,8 @@ $calendarCellBorderColor: #d2d2d2;
     .removeReminders {
         color: red;
         position: relative;
-        top: 2px;
-        left: calc(#{$calendarCellWidth} - 27px);
+        top: 4px;
+        left: calc(#{$calendarCellWidth} - 30px);
         &:hover{
             cursor: pointer;
         }
