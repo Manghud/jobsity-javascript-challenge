@@ -11,19 +11,15 @@ import { getWeatherForecastForCity } from '../services/weather';
 
 function* getForecastForCity(action){
   const city = action.payload.city;
-  const times = action.payload.times;
+  const dates = action.payload.dates;
   const response = yield call(getWeatherForecastForCity, city);
   if(response.ok) {
-    const usefulForecast = filterForecastForCity({
-      times,
-      forecastData: response
-    });
     yield put({
       type: FETCH_WEATHER_FOR_CITY_SUCCESS,
-      payload: {
-        city,
-        forecast: usefulForecast
-      }
+      payload: filterForecastForCity({
+        dates,
+        forecastData: response.data
+      })
     });
   } else {
     yield put({

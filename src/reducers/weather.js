@@ -7,7 +7,7 @@ import {
 
 const initialState = {
   loading: false,
-  byCity: {}
+  byCityDate: {}
 };
 
 export default generateReducer(initialState, {
@@ -15,13 +15,12 @@ export default generateReducer(initialState, {
     return { ...state, loading: true };
   },
   [FETCH_WEATHER_FOR_CITY_SUCCESS](state, action) {
-    const cityName = action.payload.city;
-    const forecast = action.payload.forecast;
+    const forecast = action.payload;
     return {
       ...state,
-      byCity: {
-        ...state.byCity,
-        [cityName]: forecast
+      byCityDate: {
+        ...state.byCityDate,
+        ...forecast
       },
       loading: false
     };
